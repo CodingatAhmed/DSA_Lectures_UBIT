@@ -45,11 +45,6 @@ void DeletefromStart()
         Node *CurrentNode = List->nextNode;
         List = CurrentNode;
         List->previousNode = NULL;
-        // while (CurrentNode->Next->Next != NULL)
-        // {
-        //     CurrentNode = CurrentNode->Next;
-        // }
-        // CurrentNode->Next = NULL;
     }
 };
 
@@ -79,6 +74,43 @@ void InsertAtIndex(int DataEnter, int Position)
     }
 }
 
+void DeletefromIndex(int Position)
+{
+    if (List == NULL)
+    {
+        cout << "Linked List is Empty, Please Enter Nodes" << endl;
+    }
+    else
+    {
+        if (Position == 1)
+        {
+            DeletefromStart();
+        }
+        else
+        {
+            int Index = 1;
+            Node *CurrentNode = List;
+            while (Index < Position - 1)
+            {
+                CurrentNode = CurrentNode->nextNode;
+                Index += 1;
+            }
+            if (CurrentNode->nextNode->nextNode == NULL)
+            {
+                CurrentNode->nextNode = NULL;
+            }
+            else
+            {
+                CurrentNode->nextNode = CurrentNode->nextNode->nextNode;
+            }
+        }
+        // while (CurrentNode->Next->Next != NULL)
+        // {
+        // }
+        // CurrentNode->Next = NULL;
+    }
+};
+
 void InsertAtEnd(int newData)
 {
     Node *NewNode = (Node *)std::malloc(sizeof(Node));
@@ -100,6 +132,22 @@ void InsertAtEnd(int newData)
         CurrentNode->nextNode = NewNode;
     }
 };
+void DeleteAtEnd()
+{
+    if (List == NULL)
+    {
+        cout << "Linked List is Empty, Please Enter Nodes" << endl;
+    }
+    else
+    {
+        Node *CurrentNode = List;
+        while (CurrentNode->nextNode != NULL)
+        {
+            CurrentNode = CurrentNode->nextNode;
+        }
+        CurrentNode->nextNode = NULL;
+    }
+};
 
 Node *Display()
 {
@@ -115,13 +163,17 @@ Node *Display()
 
 void ReverseDisplay()
 {
-    Node *LastNode = Display();
-    while (LastNode->previousNode != NULL)
+    Node *CurrentNode = List;
+    while (CurrentNode->nextNode != NULL)
     {
-        cout << LastNode->Data << endl;
-        LastNode = LastNode->previousNode;
+        CurrentNode = CurrentNode->nextNode;
     }
-    cout << LastNode->Data << endl;
+    while (CurrentNode->previousNode != NULL)
+    {
+        cout << CurrentNode->Data << endl;
+        CurrentNode = CurrentNode->previousNode;
+    }
+    cout << CurrentNode->Data << endl;
 }
 
 int main()
@@ -132,6 +184,7 @@ int main()
     InsertAtEnd(3);
     DeletefromStart();
     InsertAtIndex(18, 3);
+    DeletefromIndex(4);
     Display();
     ReverseDisplay();
 }

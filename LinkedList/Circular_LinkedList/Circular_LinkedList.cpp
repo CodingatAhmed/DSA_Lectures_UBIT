@@ -12,6 +12,44 @@ struct Node
 
 Node *List = NULL;
 
+void InsertAtStart(int DataValue)
+{
+    Node *Temp = (Node *)std::malloc(sizeof(Node));
+    Temp->Data = DataValue;
+    Temp->Next = NULL;
+    if (List == NULL)
+    {
+        List = Temp;
+    }
+    else
+    {
+        Node *MainList = List;
+        List = Temp;
+        Temp->Next = MainList;
+    }
+}
+
+void DeleteFromStart()
+{
+    if (List == NULL)
+    {
+        cout << "Linked List is Empty, Please Enter Nodes" << endl;
+    }
+    else
+    {
+        Node *CurrentNode = List->Next;
+        List = CurrentNode;
+    }
+}
+
+void InsertAtIndex(int DataValue, int Position)
+{
+}
+
+void DeleteFromIndex(int Position)
+{
+}
+
 void InsertAtEnd(int DataValue)
 {
     Node *Temp = (Node *)std::malloc(sizeof(Node));
@@ -32,8 +70,21 @@ void InsertAtEnd(int DataValue)
         Temp->Next = List;
     }
 }
-void DeletefromEnd() {
-
+void DeletefromEnd()
+{
+    if (List == NULL)
+    {
+        cout << "Linked List is Empty, Please Enter Nodes" << endl;
+    }
+    else
+    {
+        Node *CurrentNode = List;
+        while (CurrentNode->Next->Next != List)
+        {
+            CurrentNode = CurrentNode->Next;
+        }
+        CurrentNode->Next = List;
+    }
 };
 
 void Search(int FindValue)
