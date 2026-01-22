@@ -11,6 +11,7 @@ struct Node
 };
 
 Node *List = NULL;
+List->Next = NULL;
 
 void InsertAtEnd(int DataValue)
 {
