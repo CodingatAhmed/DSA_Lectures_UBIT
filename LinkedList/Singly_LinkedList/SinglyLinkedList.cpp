@@ -73,11 +73,6 @@ void DeletefromStart()
     {
         Node *CurrentNode = List->Next;
         List = CurrentNode;
-        // while (CurrentNode->Next->Next != NULL)
-        // {
-        //     CurrentNode = CurrentNode->Next;
-        // }
-        // CurrentNode->Next = NULL;
     }
 };
 
@@ -172,6 +167,15 @@ void Display()
 
 int main()
 {
+    // if (List->Next == 0)
+    // {
+    //     cout << "zero" << endl;
+    // }
+    // if (List->Next == NULL)
+    // {
+    //     cout << "NULL" << endl;
+    // }
+    // cout << List << endl;
     InsertAtStart(40);
     InsertAtEnd(10);
     InsertAtEnd(20);
