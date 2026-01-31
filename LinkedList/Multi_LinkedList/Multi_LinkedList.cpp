@@ -85,29 +85,43 @@ void AddStudentToCourse(int Cno, int Seatno)
 void DisplayAll()
 {
     CNode *CurrentCourse = CourseList;
-    while (CurrentCourse != NULL)
+    if (CurrentCourse == NULL)
     {
-        cout << "Course No:" << CurrentCourse->CourseNo << endl;
-        SNode *CurrentStudent = CurrentCourse->Student_List;
-        while (CurrentStudent != NULL)
+        cout << "No Courses Registered" << endl;
+    }
+    else
+    {
+        while (CurrentCourse != NULL)
         {
-            cout << "Student Seat No" << CurrentStudent->SeatNo << endl;
-            CurrentStudent = CurrentStudent->NextStudent;
+            cout << "Course No:" << CurrentCourse->CourseNo << endl;
+            SNode *CurrentStudent = CurrentCourse->Student_List;
+            if (CurrentStudent == NULL)
+            {
+                cout << "No Student Enrolled in Course No: " << CurrentCourse->CourseNo << endl;
+            }
+            else
+            {
+                while (CurrentStudent != NULL)
+                {
+                    cout << "Student Seat No" << CurrentStudent->SeatNo << endl;
+                    CurrentStudent = CurrentStudent->NextStudent;
+                }
+            }
+            CurrentCourse = CurrentCourse->NextCourse;
         }
-        CurrentCourse = CurrentCourse->NextCourse;
     }
 }
 
 int main()
 {
-    AddACourse(404);
-    AddStudentToCourse(404, 55);
-    AddStudentToCourse(404, 56);
-    AddStudentToCourse(404, 57);
-    AddACourse(405);
-    AddStudentToCourse(405, 55);
-    AddStudentToCourse(405, 56);
-    AddStudentToCourse(405, 57);
+    // AddACourse(404);
+    // AddStudentToCourse(404, 55);
+    // AddStudentToCourse(404, 56);
+    // AddStudentToCourse(404, 57);
+    // AddACourse(405);
+    // AddStudentToCourse(405, 55);
+    // AddStudentToCourse(405, 56);
+    // AddStudentToCourse(405, 57);
     DisplayAll();
     return 0;
 }
