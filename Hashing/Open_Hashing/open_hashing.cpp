@@ -47,8 +47,10 @@ void HashPInsertion(int Value, int HashPSize) {
     int HashIndex;
     HashIndex = Value % HashPSize;
     if (HashPointer[HashIndex] == NULL) {
-        HashPointer[HashIndex]->Data = Value;
-        HashPointer[HashIndex]->NextNode = NULL;
+        NodeP *newNode = (NodeP *)malloc(sizeof(NodeP));
+        newNode->Data = Value;
+        newNode->NextNode = NULL;
+        HashPointer[HashIndex] = newNode;
     }
     else {
         NodeP *CurrentNode = HashPointer[HashIndex];
@@ -79,18 +81,44 @@ void PrintHashPArray(NodeP *Array[], int Arraysize)
     cout << "{ ";
     for (int i = 0; i < Arraysize; i++)
     {
+        if(Array[i]==NULL)
+        cout<< "NULL ";
+        else
+        {
         cout << Array[i]->Data;
         if (i != Arraysize - 1)
             cout << ", ";
+        }
     }
     cout << " }" << endl;
 }
 
 int main() {
     // int HashSize = sizeof(Hash)/sizeof(int);
-    int HashPSize = sizeof(HashPointer)/sizeof(HashPointer[0]->NextNode);
-    // HashInsertion(10, HashSize);
-    // PrintHashArray(Hash, HashSize);
+    int HashPSize = sizeof(HashPointer)/sizeof(HashPointer[0]);
+    int HashSize = sizeof(Hash)/sizeof(Hash[0]);
+    HashPInsertion(1, HashPSize);
+    HashPInsertion(2, HashPSize);
+    HashPInsertion(3, HashPSize);
+    HashPInsertion(4, HashPSize);
+    HashPInsertion(5, HashPSize);
+    HashPInsertion(6, HashPSize);
+    HashPInsertion(7, HashPSize);
+    HashPInsertion(8, HashPSize);
+    HashPInsertion(9, HashPSize);
+    HashPInsertion(10, HashPSize);
+    HashInsertion(1, HashPSize);
+    HashInsertion(2, HashSize);
+    HashInsertion(3, HashSize);
+    HashInsertion(4, HashSize);
+    HashInsertion(5, HashSize);
+    HashInsertion(6, HashSize);
+    HashInsertion(7, HashSize);
+    HashInsertion(8, HashSize);
+    HashInsertion(9, HashSize);
+    HashInsertion(10, HashSize);
+    // PrintHashArray(Hash, HashSize);//ashPointer[0]
     PrintHashPArray(HashPointer, HashPSize);
+    PrintHashArray(Hash, HashSize);
     return 0;
 }
