@@ -7,7 +7,6 @@ struct Stack
 {
     int DataValue;
     Stack *StackData;
-    int TopPointer;
 };
 
 // Stack *StackList = (Stack *)malloc(sizeof(Stack));
@@ -23,56 +22,31 @@ void Push(int Datavalue)
     NewData->DataValue = Datavalue;
     if (StackList == NULL)
     {
-        NewData->TopPointer = 1;
         NewData->StackData = NULL;
         StackList = NewData;
-        cout << "Data Added Successfully at index" << NewData->TopPointer << endl;
     }
     else
     {
-        Stack *CurrentStackData = StackList;
-        if (CurrentStackData->TopPointer < 5)
-        {
-            CurrentStackData->DataValue = Datavalue;
-            CurrentStackData->StackData = StackList;
-            CurrentStackData->TopPointer += 1;
-            StackList = CurrentStackData;
-            cout << "Data Added Successfully at index" << CurrentStackData->TopPointer << endl;
-        }
-        else
-        {
-            cout << "Stack is full" << endl;
-        }
+        NewData->StackData = StackList;
+        StackList = NewData;
     }
-}
+    cout << "Data Value " << Datavalue << " Added Successfully" << endl;
+    }
 
 int Pop()
 {
-    Stack *NewData = (Stack *)malloc(sizeof(Stack));
     if (StackList == NULL)
     {
+        cout << "Stack is empty" << endl;
         return -1;
-        // cout << "Stack is empty" << endl;
     }
     else
     {
-        Stack *CurrentStackData = StackList;
         int ReturnData;
-        if (CurrentStackData->TopPointer > 0)
-        {
-            ReturnData = CurrentStackData->DataValue;
-            CurrentStackData = CurrentStackData->StackData;
-            StackList = CurrentStackData;
-            CurrentStackData->TopPointer -= 1;
-            StackList = CurrentStackData;
-            // cout << ReturnData << endl;
-            return ReturnData;
-            // cout << "Data Added Successfully at index" << CurrentStackData->TopPointer << endl;
-        }
+        ReturnData = StackList->DataValue;
+        StackList = StackList->StackData;
+        cout << "Data Value " << ReturnData << " Removed Successfully" << endl;
         return ReturnData;
-        // else {
-        //     cout << "Stack is full" << endl;
-        // }
     }
 }
 
@@ -81,14 +55,11 @@ int main()
     Push(10);
     Push(20);
     Push(40);
+    Pop();
     Push(30);
     Push(59);
-    cout << Pop() << endl;
-    Push(19);
-    cout << Pop() << endl;
-    // cout << Pop() << endl;
-    // Push(30);
-    // Pop();
+    Pop();
+    Pop();
     Pop();
     return 0;
     // return 123;

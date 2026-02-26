@@ -64,6 +64,23 @@ void HashPInsertion(int Value, int HashPSize) {
     }
 }
 
+void SearchHashP(int Value, int HashPSize) {
+    int HashIndex = Value % HashPSize;
+    NodeP *CurrentNode = HashPointer[HashIndex];
+    // if (CurrentNode->Data == Value) {
+    //     cout << "Data found" << endl;
+    // }
+        while (CurrentNode->Data != Value && CurrentNode->NextNode != NULL) {
+            CurrentNode = CurrentNode->NextNode;
+        } 
+        if (CurrentNode->Data == Value) {
+            cout << "Data found" << endl;
+        }
+        else {
+            cout << "Data not found" << endl;
+        }
+}
+
 void PrintHashArray(Node Array[], int Arraysize)
 {
     cout << "{ ";
@@ -96,7 +113,7 @@ void PrintHashPArray(NodeP *Array[], int Arraysize)
 int main() {
     // int HashSize = sizeof(Hash)/sizeof(int);
     int HashPSize = sizeof(HashPointer)/sizeof(HashPointer[0]);
-    int HashSize = sizeof(Hash)/sizeof(Hash[0]);
+    // int HashSize = sizeof(Hash)/sizeof(Hash[0]);
     HashPInsertion(1, HashPSize);
     HashPInsertion(2, HashPSize);
     HashPInsertion(3, HashPSize);
@@ -107,18 +124,20 @@ int main() {
     HashPInsertion(8, HashPSize);
     HashPInsertion(9, HashPSize);
     HashPInsertion(10, HashPSize);
-    HashInsertion(1, HashPSize);
-    HashInsertion(2, HashSize);
-    HashInsertion(3, HashSize);
-    HashInsertion(4, HashSize);
-    HashInsertion(5, HashSize);
-    HashInsertion(6, HashSize);
-    HashInsertion(7, HashSize);
-    HashInsertion(8, HashSize);
-    HashInsertion(9, HashSize);
-    HashInsertion(10, HashSize);
+    HashPInsertion(65, HashPSize);
+    SearchHashP(67, HashPSize);
+    // HashInsertion(1, HashPSize);
+    // HashInsertion(2, HashSize);
+    // HashInsertion(3, HashSize);
+    // HashInsertion(4, HashSize);
+    // HashInsertion(5, HashSize);
+    // HashInsertion(6, HashSize);
+    // HashInsertion(7, HashSize);
+    // HashInsertion(8, HashSize);
+    // HashInsertion(9, HashSize);
+    // HashInsertion(10, HashSize);
     // PrintHashArray(Hash, HashSize);//ashPointer[0]
-    PrintHashPArray(HashPointer, HashPSize);
-    PrintHashArray(Hash, HashSize);
+    // PrintHashPArray(HashPointer, HashPSize);
+    // PrintHashArray(Hash, HashSize);
     return 0;
 }
