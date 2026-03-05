@@ -1,7 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdint>
-
+#include "../Stack/StackArray.h"
+// #include "../Stack/StackArray.h"
 using namespace std;
 
 struct Root {
@@ -45,6 +46,63 @@ void PostOrder(Root *MainRoot) {
     cout << MainRoot->Data << endl;
 }
 
+Root *Search(Root *MainRoot ,int searchValue) {
+    if (MainRoot == NULL) {
+        return NULL;
+    }
+    else {
+        if (MainRoot->Data == searchValue) {
+            return MainRoot;
+        }
+        else {
+            if (MainRoot->Data > searchValue) {
+                return Search(MainRoot->Left, searchValue);
+            }
+            else {
+                return Search(MainRoot->Right, searchValue);
+            }
+        }
+    }
+}
+
+Root* findMinimum(Root *MainRoot) {
+    while (MainRoot->Left != NULL) {
+        MainRoot = MainRoot->Left;
+    }
+    return MainRoot
+}
+
+Root *Delete(Root *MainRoot, int deleteNodeValue) {
+    if (MainRoot == NULL) {
+        return NULL;
+    }
+    if (MainRoot->Data > deleteNodeValue) {
+        MainRoot->Left = Delete(MainRoot->Left, deleteNodeValue);
+    }
+    else  {
+        MainRoot->Left = Delete(MainRoot->Right, deleteNodeValue);
+    }
+    else {
+            if (MainRoot->Left == NULL) {
+                Root *temp = MainRoot->Right;
+                free(MainRoot);
+                return temp;
+        
+            }
+            else {
+                Root *temp = MainRoot->Left;
+                free(MainRoot);
+                return temp;
+            }
+    }
+}
+
+void InfixToPostFix() {
+    
+}
+void InfixToPreFix() {
+
+}
 
 
 int main() {
@@ -69,6 +127,10 @@ int main() {
     MainRoot->Right->Right->Left = NULL;
     MainRoot->Right->Right->Right = NULL;
     MainRoot->Right->Right->Data = 80;
-    InOrder(MainRoot);
+    
+    // InOrder(MainRoot);
+    cout << Search(MainRoot, 20) << endl;
+    cout << Delete(MainRoot, 20) << endl;
+    cout << Search(MainRoot, 20) << endl;
     return 0;
 }

@@ -165,6 +165,18 @@ void Display()
     cout << CurrentNode->Data << endl;
 }
 
+Node* RecursiveSearch(Node *MainNode) {
+    if (MainNode == NULL) {
+        return NULL;
+    }
+    else {
+        RecursiveSearch(MainNode->Next);
+        cout << MainNode->Data << endl;
+        return MainNode; 
+    }
+}
+
+
 int main()
 {
     // if (List->Next == 0)
@@ -180,7 +192,8 @@ int main()
     InsertAtEnd(10);
     InsertAtEnd(20);
     InsertAtEnd(30);
-    DeletefromEnd();
+    // DeletefromEnd();
     Display();
-    Search(30);
+    RecursiveSearch(List);
+    // Search(30);
 }
