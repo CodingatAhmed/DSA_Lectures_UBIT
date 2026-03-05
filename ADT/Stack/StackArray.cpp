@@ -50,10 +50,7 @@ void DisplayArray(int Array[], int ArraySize)
     cout << "}";
 }
 
-void InfixToPostFix(string infixExpression) {
-    string PostFix = "";
-    for (int i = 0; i < infixExpression.length(); i++) {
-        char c = infixExpression[i];
+int precedence(char c) {
         if (c == '/' || c == '*') {
             return 1;
         }
@@ -63,24 +60,52 @@ void InfixToPostFix(string infixExpression) {
         else if (c == "<" || c == ">" || c == "<=" || c == ">=" || c == "") {
             return 3;
         }
-
-        else if (c == "(" || c == ")") {
-            return 3;
-        }
         else if (c == "!=" || c == "==") {
             return 4;
-
         }
         else if (c == "&&") {
             return 5;
-
+            
         }
         else if (c = "||") {
             return 6;
-
+            
+        }
+        else if (c == "(") {
+            return 7;
+        }
+        else if (c == ")") {
+            return 8;
+        }
+        else {
+            return 9;
         }
     }
 
+void InfixToPostfix(string infixExpression) {
+    string PostFix = "";
+    for (int i = 0; i < infixExpression.length(); i++) {
+        char PickChar = infixExpression[i];
+        int precedenceValue = precedence(PickChar);
+        if (precedenceValue == 9) {
+            PostFix = PostFix + PickChar;
+        }
+        else {
+            if (TopPointer == 0) {
+                Push(PickChar);
+            }   
+            else {
+                while (TopPointer < 0 && precedence(Pop()) <= precedenceValue) {
+                    PostFix = PostFix + precedence(Pop());
+                }
+                Push(PickChar)
+            }   
+        }
+
+    }
+    for (int j = 0; j < TopPointer; j++) {
+        PostFix = PostFix + Push(StackArray[j]);
+    }
 }
 
 int main()
