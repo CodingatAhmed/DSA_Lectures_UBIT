@@ -1,8 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdint>
-#include "../Stack/StackArray.h"
-// #include "../Stack/StackArray.h"
+
 using namespace std;
 
 struct Root {

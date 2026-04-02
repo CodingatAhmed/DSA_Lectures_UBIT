@@ -9,7 +9,7 @@ using namespace std;
 char StackArray[100];
 int TopPointer = 0;
 
-void Push(int DataValue)
+void Push(char DataValue)
 {
     if (TopPointer < 10)
     {
@@ -22,7 +22,7 @@ void Push(int DataValue)
     }
 }
 
-int Pop(int DataValue)
+int Pop()
 {
     if (TopPointer > 1)
     {
@@ -38,7 +38,7 @@ int Pop(int DataValue)
     }
 }
 
-void DisplayArray(int Array[], int ArraySize)
+void DisplayArray(char Array[], int ArraySize)
 {
     cout << "{";
     for (int i = 0; i < ArraySize; i++)
@@ -95,24 +95,25 @@ void InfixToPostfix(string infixExpression) {
                 Push(PickChar);
             }   
             else {
-                while (TopPointer < 0 && precedence(Pop()) <= precedenceValue) {
-                    PostFix = PostFix + precedence(Pop());
+                while (TopPointer > 0 && precedence(Pop()) <= precedenceValue) {
+                    PostFix = PostFix + Pop();
                 }
                 Push(PickChar)
             }   
         }
-
     }
     for (int j = 0; j < TopPointer; j++) {
-        PostFix = PostFix + Push(StackArray[j]);
+        PostFix = PostFix + Pop();
     }
+    cout << PostFix << endl;
 }
 
 int main()
 {
     int StackArraySize = sizeof(StackArray) / sizeof(int);
     DisplayArray(StackArray, StackArraySize);
-    Push(10);
+    // Push(10);
+    InfixToPostfix("A+B");
     DisplayArray(StackArray, StackArraySize);
     return 0;
 }
