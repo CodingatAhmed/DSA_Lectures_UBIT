@@ -406,18 +406,8 @@ int main()
     InsertAtEnd(20);
     InsertAtEnd(30);
     DeletefromEnd();
-    // DeletefromIndex(2);
-    // DeletefromStart();
-    // DeletefromIndex(1);
     Display();
-    // Bool_BinarySearch(DataArray, Arraysize, 6);
-
-    // cout << "Numbers in the vector: ";
-    // // for (const auto &num : numbers)
-    // {
-    //     // cout << num << " ";
-    // }
-    // cout << endl;
+    
 
     return 0;
 }

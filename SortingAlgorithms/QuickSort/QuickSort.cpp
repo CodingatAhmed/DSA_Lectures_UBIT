@@ -2,23 +2,34 @@
 #include <vector>
 using namespace std;
 
-void QuickSort(int Array[], int ArraySize) {
-    int pivotIndex = ArraySize - 1;
-    int i = -1;
-    int j = 0;
-    int temp;
-    while (j < pivotIndex) {
-        if (Array[j] < Array[pivotIndex]) {
-            i += 1;
-            temp = Array[i];
-            Array[i] = Array[j];
-            Array[j] = temp;
+void swap(int &a, int &b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+int partition(int Array[], int low , int high) {
+    int pivot = Array[high];
+    int i = (low - 1);   
+
+    for (int j = low; j < high; j++) {
+        if (Array[j] <= pivot) {
+            i++; 
+            swap(Array[i], Array[j]);
         }
-        j += 1;
     }
-    temp = Array[i + 1];
-    Array[i + 1] = Array[pivotIndex];
-    Array[pivotIndex] = temp;
+    swap(Array[i + 1], Array[high]);
+    return (i + 1);
+}
+
+void QuickSort(int Array[], int low, int high) {
+    if (low < high) {
+        int PartitionIndex = partition(Array, low, high);
+
+        QuickSort(Array, PartitionIndex + 1, high);
+        QuickSort(Array, low, PartitionIndex - 1);
+    }
+
 }
 
 void PrintArray(int Array[], int Arraysize)
@@ -36,7 +47,7 @@ void PrintArray(int Array[], int Arraysize)
 int main() {
     int PassArray[] = {10, 80, 30, 90, 40}; //3,4,12,56,78
     int ArraySize = sizeof(PassArray)/ sizeof(int);
-    QuickSort(PassArray, ArraySize);
+    QuickSort(PassArray, 0, ArraySize - 1);
     PrintArray(PassArray, ArraySize);
     return 0;
 }

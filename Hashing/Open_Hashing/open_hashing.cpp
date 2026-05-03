@@ -11,7 +11,7 @@ struct NodeP {
 };
 struct Node {
     int Data;
-    Node *NextNode;
+    Node *Nextnode;
     bool flag;
 };
 
@@ -24,7 +24,7 @@ void HashInsertion(int Value, int HashSize) {
     if (Hash[HashIndex].flag == false) {
         Hash[HashIndex].Data = Value;
         Hash[HashIndex].flag = true;
-        Hash[HashIndex].NextNode = NULL;
+        Hash[HashIndex].Nextnode = NULL;
     }
     else {
         Node CurrentNode = Hash[HashIndex];
@@ -81,7 +81,7 @@ void SearchHashP(int Value, int HashPSize) {
         }
 }
 
-void PrintHashArray(Node Array[], int Arraysize)
+void PrintHashArray88(Node Array[], int Arraysize)
 {
     cout << "{ ";
     for (int i = 0; i < Arraysize; i++)
