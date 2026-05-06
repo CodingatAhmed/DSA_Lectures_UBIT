@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdint>
+#include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -64,45 +66,217 @@ Root *Search(Root *MainRoot ,int searchValue) {
     }
 }
 
-Root* findMinimum(Root *MainRoot) {
-    while (MainRoot->Left != NULL) {
-        MainRoot = MainRoot->Left;
+Root* FindMinimum(Root *MainRoot) {
+    if (MainRoot->Left == NULL) {
+        return MainRoot;
+                
     }
-    return MainRoot
+    else {
+        Root* FoundNode = FindMinimum(MainRoot->Left);
+        MainRoot->Left = NULL;
+        return FoundNode;
+    }
+
 }
 
-Root *Delete(Root *MainRoot, int deleteNodeValue) {
+Root* Delete(Root *MainRoot, int deleteNodeValue) {
     if (MainRoot == NULL) {
-        return NULL;
+        return MainRoot;
     }
+    
     if (MainRoot->Data > deleteNodeValue) {
         MainRoot->Left = Delete(MainRoot->Left, deleteNodeValue);
     }
-    else  {
-        MainRoot->Left = Delete(MainRoot->Right, deleteNodeValue);
+    if (MainRoot->Data < deleteNodeValue) {
+        MainRoot->Right = Delete(MainRoot->Right, deleteNodeValue);
     }
-    else {
-            if (MainRoot->Left == NULL) {
-                Root *temp = MainRoot->Right;
-                free(MainRoot);
-                return temp;
-        
+
+    if (MainRoot->Data == deleteNodeValue) {
+        if (MainRoot->Left == NULL && MainRoot->Right == NULL) {
+            return NULL;
+        }
+        else {
+            if (MainRoot->Left != NULL && MainRoot->Right == NULL) {
+                return MainRoot->Left;
             }
             else {
-                Root *temp = MainRoot->Left;
-                free(MainRoot);
-                return temp;
+                if (MainRoot->Left == NULL && MainRoot->Right != NULL) {
+                    return MainRoot->Right;
+                }
+                else {
+                    if (MainRoot->Left != NULL && MainRoot->Right != NULL) {
+                            MainRoot->Data = FindMinimum(MainRoot->Right)->Data;
+                            return MainRoot;
+                            
+                        }
+                }
             }
+        }
+
+        
+    }
+    return MainRoot;
+}
+
+
+// void InfixToPostFix() {
+    
+// }
+// void InfixToPreFix() {
+
+// }
+
+vector<Root*> MaxHeap(Root* BST) {
+    vector<Root*> HeapValues;
+    queue<Root*> HeapValToUse;
+    HeapValToUse.push(BST);
+    while (HeapValToUse.size() > 0)
+    {
+        Root* frontNode = HeapValToUse.front();
+        HeapValToUse.pop();
+        HeapValues.push_back(frontNode);
+        if (frontNode->Left != NULL) {
+            HeapValToUse.push(frontNode->Left);
+        }
+        if (frontNode->Right != NULL) {
+            HeapValToUse.push(frontNode->Right);
+        }
+    }
+    int sizeArray = HeapValues.size();
+    int initialIndex = (sizeArray/2) - 1;
+    while (initialIndex >= 0) {
+        int parentIndex = initialIndex;
+        int leftIndex = (2*initialIndex) + 1;
+        int rightIndex = (2* initialIndex) + 2;
+        if (rightIndex >= sizeArray) {
+            if (HeapValues[leftIndex]->Data > HeapValues[parentIndex]->Data) {
+                Root* temp = HeapValues[parentIndex];
+                HeapValues[parentIndex] = HeapValues[leftIndex];
+                HeapValues[leftIndex] = temp;
+            }
+        }
+        else if (rightIndex < sizeArray) {
+            if (HeapValues[leftIndex]->Data > HeapValues[rightIndex]->Data) {
+                Root* temp = HeapValues[parentIndex];
+                HeapValues[parentIndex] = HeapValues[leftIndex];
+                HeapValues[leftIndex] = temp;
+
+            }
+            if (HeapValues[leftIndex]->Data < HeapValues[rightIndex]->Data) {
+                Root* temp = HeapValues[parentIndex];
+                HeapValues[parentIndex] = HeapValues[rightIndex];
+                HeapValues[rightIndex] = temp;
+
+            }
+        }
+        initialIndex -= 1;
+    }
+    return HeapValues;
+}
+
+
+vector<Root*> heapify(vector<Root*> minHeapArray, int size, int startIndex) {
+    int sizeMinHeap = minHeapArray.size();
+    int parentIndex = startIndex;
+    int leftIndex = (2*startIndex) + 1;
+    int rightIndex = (2*startIndex) + 2;
+    if (minHeapArray[parentIndex] > minHeapArray[leftIndex] && minHeapArray[parentIndex] > minHeapArray[rightIndex] || leftIndex >= sizeMinHeap && rightIndex >= sizeMinHeap) {
+        return minHeapArray;
+    }
+    if (rightIndex >= sizeMinHeap) {
+            if (minHeapArray[leftIndex]->Data > minHeapArray[parentIndex]->Data) {
+                Root* temp = minHeapArray[parentIndex];
+                minHeapArray[parentIndex] = minHeapArray[leftIndex];
+                minHeapArray[leftIndex] = temp;
+                return heapify(minHeapArray, size, leftIndex);
+            }
+            else {
+                return minHeapArray;
+            }
+    }
+    else if (rightIndex < sizeMinHeap) {
+            if (minHeapArray[leftIndex]->Data > minHeapArray[rightIndex]->Data) {
+                Root* temp = minHeapArray[parentIndex];
+                minHeapArray[parentIndex] = minHeapArray[leftIndex];
+                minHeapArray[leftIndex] = temp;
+                return heapify(minHeapArray, size, leftIndex);
+                
+            }
+            if (minHeapArray[leftIndex]->Data < minHeapArray[rightIndex]->Data) {
+                Root* temp = minHeapArray[parentIndex];
+                minHeapArray[parentIndex] = minHeapArray[rightIndex];
+                minHeapArray[rightIndex] = temp;
+                return heapify(minHeapArray, size, rightIndex);
+
+            }
+    }
+    return minHeapArray;
+}
+
+vector<Root*> HeapSort(vector<Root*> Array) {
+    vector<Root*> maxHeapArray = MaxHeap(MainRoot);
+    int sizeMaxHeap = maxHeapArray.size();
+    if (sizeMaxHeap > 1) {
+        return Array;
+    }
+    else {
+        Root* temp = maxHeapArray[0];
+        maxHeapArray[0] = maxHeapArray[sizeMaxHeap - 1];
+        maxHeapArray[sizeMaxHeap - 1] = temp;
+        vector<Root*> heapifyArray = heapify(maxHeapArray, sizeMaxHeap - 1, 0);
+        return HeapSort(heapifyArray);
     }
 }
 
-void InfixToPostFix() {
+void printTreeWithVertices(Root* root, int space) {
+    if (root == NULL) return;
+
+    // Increase distance between levels
+    space += 8;
+
+    // Process Right child first (Top of the screen)
+    printTreeWithVertices(root->Right, space);
+
+    // Print current node
+    printf("\n");
+    for (int i = 8; i < space; i++) printf(" ");
     
-}
-void InfixToPreFix() {
+    // Print the vertex connector
+    if (space > 8) printf("|---"); 
+    
+    printf("[%d]\n", root->Data);
 
+    // Process Left child (Bottom of the screen)
+    printTreeWithVertices(root->Left, space);
 }
 
+void BFSTraversalBST(Root* MainRoot) {
+    queue<Root*> NodesToVisit;
+    NodesToVisit.push(MainRoot);
+    while (NodesToVisit.size() > 0) {
+        Root* FrontNode = NodesToVisit.front();
+        NodesToVisit.pop();
+        cout << FrontNode->Data << endl;
+        if (FrontNode->Left != NULL) {
+            NodesToVisit.push(FrontNode->Left);
+        }
+        if (FrontNode->Right != NULL) {
+            NodesToVisit.push(FrontNode->Right);
+        }
+    }
+}
+
+void DisplayArray(vector<Root*> Array)
+{
+    cout << "{";
+    for (int i = 0; i < Array.size(); i++)
+    {
+        cout << Array[i]->Data;
+        if (i != Array.size() - 1)
+            cout << ", ";
+    }
+    cout << "}";
+}
 
 int main() {
     MainRoot->Data = 50;
@@ -128,8 +302,19 @@ int main() {
     MainRoot->Right->Right->Data = 80;
     
     // InOrder(MainRoot);
-    cout << Search(MainRoot, 20) << endl;
-    cout << Delete(MainRoot, 20) << endl;
-    cout << Search(MainRoot, 20) << endl;
+    // cout << Search(MainRoot, 20) << endl;
+    // cout << Delete(MainRoot, 20) << endl;
+    // cout << Search(MainRoot, 20) << endl;
+    // Delete(MainRoot);
+    // printTreeWithVertices(MainRoot,0);
+    // Delete(MainRoot, 20);
+    printTreeWithVertices(MainRoot,0);
+    vector<Root*> maxHeapArray = MaxHeap(MainRoot);
+    DisplayArray(maxHeapArray);
+    // BFSTraversalBST(MainRoot);
+    // Delete(MainRoot, 30);
+    // printTreeWithVertices(MainRoot,0);
+    // Delete(MainRoot, 50);
+    // printTreeWithVertices(MainRoot,0);
     return 0;
 }

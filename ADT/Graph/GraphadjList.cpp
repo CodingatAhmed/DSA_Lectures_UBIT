@@ -152,6 +152,57 @@ void printGraph(Graph* graph) {
     }
 }
 
+int* PathFindingDFS(Graph* graph, int StartVertex, int EndVertex,bool* NodesToVisit, int* ParentNodes) {
+    if (NodesToVisit[EndVertex] == true) {
+        return ParentNodes;    
+    }   
+    else {
+        NodesToVisit[StartVertex] = true;
+        Node* currentVertex = graph->listOfVertices[StartVertex];
+        while (currentVertex != nullptr) {
+            if (NodesToVisit[currentVertex->vertice] == false) {
+                ParentNodes[StartVertex] = currentVertex->vertice;
+                NodesToVisit[currentVertex->vertice] = true;
+                PathFindingDFS(graph, currentVertex->vertice, EndVertex, NodesToVisit, ParentNodes);    
+            }
+            currentVertex = currentVertex->NextNode;
+        }
+    }
+    return ParentNodes;    
+}
+
+void PathFindingDFSTraversal(Graph* graph, int StartVertex, int EndVertex) {
+    bool* NodesToVisit = new bool[graph->NoVertices];
+    int* ParentNodesPath = new int[graph->NoVertices];
+    for (int i = 0; i < graph->NoVertices; i++) {
+        NodesToVisit[i] = false;
+        ParentNodesPath[i] = -1;
+    }
+    int *PathFound = PathFindingDFS(graph, StartVertex, EndVertex, NodesToVisit, ParentNodesPath);
+    int currentVertex = StartVertex;
+    cout << StartVertex << " -> ";
+    while (PathFound[currentVertex] != -1) {
+        cout << PathFound[currentVertex] << " -> ";
+        currentVertex = PathFound[currentVertex];
+    }
+    cout << endl;
+    // if (NodesToVisit[EndVertex] == true) {
+    //     return ParentNodes;    
+    // }   
+    // else {
+    //     NodesToVisit[StartVertex] = true;
+    //     Node* currentVertex = graph->listOfVertices[StartVertex];
+    //     while (currentVertex != nullptr) {
+    //         if (NodesToVisit[currentVertex->vertice] == false) {
+    //             ParentNodes[StartVertex] = currentVertex->vertice;
+    //             PathFindingDFS(graph, currentVertex->vertice, EndVertex, NodesToVisit, ParentNodes)    
+    //         }
+    //         currentVertex = currentVertex->NextNode;
+    //     }
+    // }
+    // return ParentNodes;    
+}
+
 int main() {
     Graph* MainGraph = CreateGraph(4);
     // bool* VisitedVertices = new bool[MainGraph->];
@@ -163,7 +214,8 @@ int main() {
     addEdge(MainGraph, 2,3);
 
     printGraph(MainGraph);
-    BFSTraversal(MainGraph, 0);
+    PathFindingDFSTraversal(MainGraph, 0, 3);
+    // BFSTraversal(MainGraph, 0);
     // DFSTraversal(MainGraph, 0);
     // DFSStack(MainGraph, 0);
 }

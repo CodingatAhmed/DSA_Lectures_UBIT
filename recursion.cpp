@@ -6,19 +6,30 @@
 
 using namespace std;
 
-struct Node {
-    int Data;
-    Node* nextNode;
-}
+// struct Node {
+//     int Data;
+//     Node* nextNode;
+// }
 
-struct Graph {
-    int NumOfVertices;
-    Node** GraphNodes;
-}
+// struct Graph {
+//     int NumOfVertices;
+//     Node** GraphNodes;
+// }
 
-void InitialiseGraph(Graph* graph, int Vertices) {
-    graph->GraphNodes = Node*[Vertices];
+// void InitialiseGraph(Graph* graph, int Vertices) {
+//     graph->GraphNodes = Node*[Vertices];
     
-}
+// }
+int Factorial(int Num) {
+    if (Num == 0) {
+        return 1;
+    }
 
+    else {
+        return Factorial(Num - 1);
+    }
+}
+int main() {
+    cout << Factorial(5) << endl;
+}
 
